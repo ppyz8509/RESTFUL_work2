@@ -4,18 +4,19 @@ const dbConfig = require("../config/db.config")
 
 // create a connection to the database sever
 const connection = mysql.createConnection({
-    host: dbConfig.host,
-    user:dbConfig.user,
-    password:dbConfig.password,
+    host: dbConfig.HOST,
+    user:dbConfig.USER,
+    password:dbConfig.PASSWORD,
     database:dbConfig.DB
 });
 
 ///open mysql connection
-connection.connect(
-    (error)=>{
-        if(error) throw error;
-        console.log("Successfully connected to the databasw...")
+connection.connect((err)=>{
+    if(err != null){
+        console.log("err");
+        return
     }
-);
+    console.log("connect");
+})
 
 module.exports = connection;
