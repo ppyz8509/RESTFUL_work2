@@ -1,107 +1,85 @@
 const express = require("express");
 const router = express.Router();
-const Restaurant = require("../models/restaurant.model");
+const Restaurant = require("../controllers/restaurant.controller");
+const { restart } = require("nodemon");
 
-/// Insert restaurant to database 
-// //http://localhost:5000/restaurants
-router.post("/restaurants", (req, res) => {
-    const newRestaurant = new Restaurant({
-        name: req.body.name,
-        type: req.body.type,
-        imageurl: req.body.imageurl
-    })
-
-
-    ///Insert to DB
-    Restaurant.create(newRestaurant, (err, data) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message || "Some error accured while inserting the new restaurant"
-            })
-        } else {
-            res.send(data)
-        }
-    })
-})
-/// get all  restaurant 
+///create a new restaurant
 //http://localhost:5000/restaurants
-router.get("/restaurants", (req, res) => {
-    Restaurant.getAll((err, data) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message ||
-                    "Some error accured while inserting the new restaurant"
-            });
-        } else {
-            res.send(data);
-        }
-    })
+router.post("/restaurants", async (req, res) => {
+  try {
+    const newRestaurant = req.body;
+    console.log(newRestaurant)
+    const createRestaurant = await Restaurant.createRestaurant(newRestaurant);
+    res.status(201).json(createRestaurant);
+  } catch (err) {
+    res.status(500).json({ error: "Fail to create restaurant " });
+  }
 })
 
+///get all restaurants
+router.get("/restaurants", async (req, res) => {
+  try {
+    const restaurants = await Restaurant.getAll();
+    res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get all restaurants" });
+  }
+})
 
-//get id restaurants
-router.get("/restaurants/:id", (req, res) => {
+//Get Restaurant by ID
+router.get("/restaurants/:id", async (req, res) => {
+  try {
     const restaurantId = req.params.id;
-
-    Restaurant.getById(restaurantId, (err, data) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving the restaurant"
-            });
-        } else {
-            res.send(data);
-        }
-    });
+    const restaurant = await Restaurant.getById(restaurantId);
+    res.json(restaurant)
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get restaurant by id" })
+  }
 });
 
-///update 
-router.put("/restaurants/:id", (req, res) => {
-    const id = req.params.id;
-    const updatedData = req.body;
-
-    Restaurant.updateById(id, updatedData, (err, result) => {
-        if (err) {
-            if (err.message === "Restaurant not found") {
-                res.status(404).send({
-                    message: "Restaurant not found"
-                });
-            } else {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while updating the restaurant"
-                });
-            }
-        } else {
-            res.send({
-                message: "Restaurant updated successfully"
-            });
-        }
-    });
+//Restaurant  Update  a Restaurant data
+router.get("/restaurants/:id", async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    const restaurantData = req.body;
+    const updateRestaurant = await Restaurant.updateById(
+      restaurantId,
+      restaurantData
+    );
+    res.status(200).json(updateRestaurant);
+  } catch (error) {
+    if (error.kind == "not_found") {
+      res.status(400).json({ error: "Restaurant not Found" });
+    } else {
+      res.status
+      res.status(500).json({ error: "Failed to get restaurant by update" });
+    }
+  }
 });
 
-/// del
-router.delete("/restaurants/:id", (req, res) => {
-    const id = req.params.id;
+//Delete a restaurant
+router.delete("/restaurant/:id", async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    const isDeleted = await Restaurant.removeById(restaurantId);
+    if (isDeleted) {
+      res
+        .status(200)
+        .json({
+          message: "Restaurant id" + restaurantId + "is deleted",
+          isDeleted: isDeleted,
+        });
+    }
+  } catch (error) {
+    if (error.kind === "not_found") {
+      res.status(404).json({ error: "Restaurant not found" });
 
-    Restaurant.deleteById(id, (err, result) => {
-        if (err) {
-            if (err.message === "Restaurant not found") {
-                res.status(404).send({
-                    message: "Restaurant not found"
-                });
-            } else {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while deleting the restaurant"
-                });
-            }
-        } else {
-            res.send({
-                message: "Restaurant deleted successfully"
-            });
-        }
-    });
+    } else {
+      res.status(500).json({ error: "Failed to update restaurant data" });
+    }
+  }
+
 });
 
 
-
-
-module.exports = router
+module.exports = router;
