@@ -39,7 +39,7 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `type`, `imageurl`) VALUES
-(1, 'McDonald\'s (แมคโดนัลด์)', 'แฮมเบอร์เกอร์, ไก่ทอด, ฟาสต์ฟู้ด', 'https://d1sag4ddilekf6.cloudfront.net/compressed_webp/merchants/AWh64KYIZXYdMpch2Zem/hero/f193b34375f84a0fb1b2b58e4320be3f_1688317413588921068.webp'),
+(1, 'McDonald (แมคโดนัลด์)', 'แฮมเบอร์เกอร์, ไก่ทอด, ฟาสต์ฟู้ด', 'https://d1sag4ddilekf6.cloudfront.net/compressed_webp/merchants/AWh64KYIZXYdMpch2Zem/hero/f193b34375f84a0fb1b2b58e4320be3f_1688317413588921068.webp'),
 (2, 'Pizza Hut (พิซซ่าฮัท)', 'Coupon, พิซซ่า', 'https://d1sag4ddilekf6.cloudfront.net/compressed_webp/merchants/3-CYTDJNKYC6X2JT/hero/1bf86d6f3bb14bcc84a0bbc1cb6a2968_1687332447386762578.webp'),
 (3, 'ข้าวทิพย์ แอนด์ เฮลท์ฟู้ด', 'Coupon, อาหารสุขภาพ', 'https://d1sag4ddilekf6.cloudfront.net/compressed_webp/merchants/3-C3TZUADTJU5VNA/hero/Optimized_449f6cec2b5b444488b3c2ef1a801630_1661688071012760036.webp'),
 (4, 'Coffee Beans by Dao (คอฟฟี่บีน บาย ดาว)', 'Coupon, อาหารตามสั่ง, Rice noodles', 'https://d1sag4ddilekf6.cloudfront.net/compressed_webp/merchants/THGFIST000006ph/hero/3392da742ed241f1b85ef2da1dba4af4_1688459345723695498.webp'),

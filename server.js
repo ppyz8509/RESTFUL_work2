@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const sql = require("./models/db");
-const PORT =5000;
+const PORT = 8080;
 const restaurantRouter = require("./routes/restaurant.router")
 
 //creat service
