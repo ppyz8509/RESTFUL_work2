@@ -32,6 +32,8 @@ CREATE TABLE `restaurants` (
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
   `imageurl` varchar(255) NOT NULL
+  `createdAt` date DEFAULT NULL,
+   `updatedAt` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

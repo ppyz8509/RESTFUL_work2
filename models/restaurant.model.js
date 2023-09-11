@@ -17,7 +17,7 @@ const Restaurant = sequelize.define("restaurant", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    imageurl: {
+    image: {
         type: DataTypes.STRING,
         allowNull: false,
     },
