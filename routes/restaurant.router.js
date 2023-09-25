@@ -38,7 +38,7 @@ router.get("/restaurants/:id", async (req, res) => {
 });
 
 //Restaurant  Update  a Restaurant data
-router.get("/restaurants/:id", async (req, res) => {
+router.put("/restaurants/:id", async (req, res) => {
   try {
     const restaurantId = req.params.id;
     const restaurantData = req.body;
