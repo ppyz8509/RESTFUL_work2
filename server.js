@@ -12,7 +12,7 @@ const role = db.role
 
 
 ///dev mode
-db.sequelize.sync({force: false}).then(() =>{
+db.sequelize.sync({force: true}).then(() =>{
     console.log("Drop and resync DB");
     initial();
 })

@@ -36,7 +36,7 @@ const Restaurant = sequelize.define("restaurant", {
 
 //Synchronize database
 Restaurant.sync({
-        force: true
+        force: false
     })
     .then(() => {
         console.log("Table created or already exists");
@@ -44,5 +44,5 @@ Restaurant.sync({
     .catch((error) => {
         console.error("error creating table:", error);
     })
-    
+
 module.exports = Restaurant;
