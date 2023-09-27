@@ -12,21 +12,21 @@ const role = db.role
 
 
 ///dev mode
-db.sequelize.sync({force: true}).then(() =>{
+db.sequelize.sync({force: false}).then(() =>{
     console.log("Drop and resync DB");
     initial();
 })
 
 function initial() {
-    role.create9({
+    role.create({
         id:1,
         name:"user",
     });
-     role.create9({
+     role.create({
          id: 2,
          name: "moderrator",
      });
-      role.create9({
+      role.create({
           id: 3,
           name: "admin",
       });
