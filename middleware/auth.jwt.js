@@ -23,8 +23,7 @@ verifyToken = (req, res, next) => {
 };
 isAdmin = (req, res, next) => {
     //SELET * FROM user WHERE id = req,userId
-    User,
-    findByPk(req.userId).then(user => {
+    User.findByPk(req.userId).then(user => {
         //SELECT * FROM role, users, user_roles WHERE user.id = user_roles.userId and role.id = users_roles.roleId
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.lenght; i++) {
@@ -42,8 +41,7 @@ isAdmin = (req, res, next) => {
 };
 isModerator = (req, res, next) => {
     //SELET * FROM user WHERE id = req,userId
-    User,
-    findByPk(req.userId).then(user => {
+    User.findByPk(req.userId).then(user => {
         //SELECT * FROM role, users, user_roles WHERE user.id = user_roles.userId and role.id = users_roles.roleId
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.lenght; i++) {
@@ -62,8 +60,7 @@ isModerator = (req, res, next) => {
 };
 isModeratorOrAdmin = (req, res, next) => {
     //SELET * FROM user WHERE id = req,userId
-    User,
-    findByPk(req.userId).then(user => {
+    User.findByPk(req.userId).then(user => {
         //SELECT * FROM role, users, user_roles WHERE user.id = user_roles.userId and role.id = users_roles.roleId
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.lenght; i++) {
