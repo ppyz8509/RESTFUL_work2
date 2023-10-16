@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Restaurant = require("../controllers/restaurant.controller");
-const { restart } = require("nodemon");
+const {authJwt} = require('./auth.router')
 
 ///create a new restaurant
 //http://localhost:5000/restaurants
@@ -27,7 +27,9 @@ router.get("/restaurants", async (req, res) => {
 })
 
 //Get Restaurant by ID
-router.get("/restaurants/:id", async (req, res) => {
+router.get("/restaurants/:id",
+//[authJwt.verifyToken],
+async (req, res) => {
   try {
     const restaurantId = req.params.id;
     const restaurant = await Restaurant.getById(restaurantId);
