@@ -9,10 +9,6 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const role = db.role
 
-
-
-
-
 ///dev mode
 // db.sequelize.sync({force: true}).then(() =>{
 //     console.log("Drop and resync DB");

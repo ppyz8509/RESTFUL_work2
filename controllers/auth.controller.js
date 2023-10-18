@@ -1,7 +1,13 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-const User = db.user;
-const Role = db.role;
+// const User = db.user;
+// const Role = db.role;
+// const RefreshToken = db.refreshToken;
+const {
+    user: User,
+    role: Role,
+    refreshToken: RefreshToken
+} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Op = db.Sequelize.Op;
@@ -54,7 +60,7 @@ exports.signin = (req, res) => {
             username: req.body.username,
         }
 
-    }).then(user => {
+    }).then(async (user) => {
         if (!user) {
             return res.status(404).send({
                 message: "User not found"
@@ -76,7 +82,8 @@ exports.signin = (req, res) => {
                 expiresIn: 86400, //24Hours = 60*60*24
 
             });
-        let authorities = [];
+        const refreshToken = await RefreshToken.createToken(user);
+        var authorities = [];
         user.getRoles().then(roles => {
             for (let i = 0; i < roles.length; i++) {
                 authorities.push("ROLES_" + roles[i].name.toUpperCase());
@@ -86,7 +93,8 @@ exports.signin = (req, res) => {
                 username: user.username,
                 email: user.email,
                 roles: authorities,
-                accessToken: token
+                accessToken: token,
+                refreshToken: RefreshToken,
             });
         });
     }).catch((err) => {
@@ -95,3 +103,57 @@ exports.signin = (req, res) => {
         });
     });
 };
+
+exports.refreshToken = async (req, res) => {
+    const {
+        refreshToken: requestToken
+    } = req.body;
+    if (requestToken == null) {
+        return res.status(403).json({
+            message: "Refresh Token is required"
+        })
+    }
+    try {
+        let refreshToken = await RefreshToken.findOne({
+            where: {
+                token: requestToken,
+            }
+        })
+        if (!refreshToken) {
+            res.status(403).json({
+
+                message: "Refresh Token is not in database"
+            })
+            return;
+        }
+        if (RefreshToken.verifyExpiration(refreshToken)) {
+            RefreshToken.destroy({
+                where: {
+                    id: refreshToken.id
+                }
+            })
+            res
+                .status(403)
+                .json({
+                    message: "Refresh Token was exprired.  Please meke a new singnin required"
+                })
+                return;
+        }
+        const user = await refreshToken.getUser();
+        let newAccessToken = jwt.sign({
+                id: user.id
+            },
+            config.secret, {
+                algorithm: "HS256",
+                allowInsecureKeySizes: true,
+                expiresIn: 86400, //24Hours = 60*60*24
+
+            });
+            return res.status(200).json({
+                accessToken:newAccessToken,
+                refreshToken:refreshToken.token,
+            })
+    }catch (error) {
+        return res.status(500).send({message : err})
+    }
+}
