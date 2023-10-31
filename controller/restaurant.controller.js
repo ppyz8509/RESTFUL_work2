@@ -1,4 +1,3 @@
-const { restart } = require("nodemon");
 const Restaurant = require("../models/restaurant.model")
 
 ///insert data

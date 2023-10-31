@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const sql = require("./models/db");
-const PORT =5000;
+const PORT =8000;
 const restaurantRouter = require("./routes/restaurant.router")
 const req = require("express/lib/request")
 const db = require("./models/index")

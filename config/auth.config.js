@@ -1,5 +1,5 @@
 module.exports = {
-    secret:"naphat-secret-key",
+    secret:"worachet-secret-key",
 
 
     // jwtExpiration: 3600,///1ชม
