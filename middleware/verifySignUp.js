@@ -4,31 +4,31 @@ const User = db.user;
 
 checkDuplicateUserOrEmail = (req, res, next) => {
     //checkUser
-    ///SELECT * FROM user WHERE username = req.body.username
+    //sql=Select * FROM user WHERE username = req.username and=(,)
     User.findOne({
         where: {
-            username: req.body.username,
+            username: req.body.username
         }
-    }).then(user => {
+    }).then((user) => {
         if (user) {
-            res.status(400).send({ message: "Failed Username is already in Uuer!" })
+            res.status(400).send({ message: "Failed Username already use!!" });
             return;
         }
-
-         //checkemail
-        ///SELECT * FROM email  WHERE email = req.body.email
+        //CheckEmail
         User.findOne({
             where: {
-                email: req.body.email,
+                email: req.body.email
             }
-        }).then(user => {
+        }).then((user) => {
             if (user) {
-                res.status(400).send({ message: "Failed email is already in email" })
+                res.status(400).send({ message: "Failed Email already use!!" });
+                return;
             }
             next();
-        })
-      
-    })
+        });
+
+    });
+
 }
 
 checkRolesExisted = (req, res, next) =>{
